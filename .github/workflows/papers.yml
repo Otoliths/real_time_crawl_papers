@@ -3,8 +3,6 @@
 name: real_time_crawl_papers
 
 on:
-  push:
-    branches: [ master ]
   schedule:
     - cron: "0 2 * * *"
 
