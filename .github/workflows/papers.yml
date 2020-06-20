@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: real_time_crawl_papers
+
+on:
+  schedule:
+    - cron: "0 2 * * *"
+
+jobs:
+  run-R-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - uses: r-lib/actions/setup-r@master
+      - name: install dependencies
+        run: sudo apt-get install libcurl4-openssl-dev
+      - name: Install packages
+        run: Rscript install_pkg.R
+      - name: Run R script
+        run: Rscript get_paper.R
+      - name: push the result to GitHub
+        run: |
+          git config --local user.email ly_ding@126.com
+          git config --local user.name Otoliths
+          git add new_paper.rds
+          git commit new_paper.rds --allow-empty -m 'add CIMMISS: ${{github.run_number}}' || echo "No changes to commit"
+          git push https://${{github.actor}}:${{secrets.token}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
