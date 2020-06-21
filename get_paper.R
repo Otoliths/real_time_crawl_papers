@@ -30,6 +30,33 @@ get.springer <- function(journal= NULL){
   rm(url)
 }
 
+get.sciencedirect <- function(journal= NULL){
+  i <- j <- k <- match(journal,list$journal)
+  title <- doi <- type <- date <- journal <- NULL
+  url <- list$url[i]
+  url <- "https://www.sciencedirect.com/journal/science-of-the-total-environment"
+  doi <- read_html(url) %>% html_nodes(".u-font-serif a") %>% html_attr("href")
+  doi <- paste0("https://www.sciencedirect.com",doi)
+  doi <- sapply(doi,function(i){
+    s <- read_html(i) %>% html_nodes(".doi") %>% html_attr("href") 
+    s <- gsub("https://doi.org/","",s)
+  })
+  title <- read_html(url) %>% html_nodes(".u-font-serif a") %>% html_text()
+  type <- read_html(url) %>% html_nodes(".js-article-subtype") %>% html_text()
+  Published <- read_html(url) %>% html_nodes(".js-article-item-aip-date") %>% html_text()
+  Published <- gsub("In Press, Journal Pre-proof, Available online ","",Published)
+  Published <- lubridate::dmy(gsub("Published: ","",Published))
+  data <- tibble::tibble(title = title,type = type,
+                         date = Published, doi = doi)
+  data$journal <- rep(list$journal[j], dim(data)[1])
+  data$type <- stringr::str_to_title(data$type)
+  data$title <- stringr::str_to_title(data$title)
+  cat(sprintf("\n %s is OK!!! ",list$journal[k]),sep = "\n")
+  return(data)
+  rm(url)
+}
+
+
 get.wiley <- function(journal=NULL){
   i <- j <- k <- match(journal,list$journal)
   title <- type <- date <- doi <- NULL
@@ -81,6 +108,9 @@ get.information <- function(journal= NULL){
   }
   else if (type=="springer"){
     data <- get.springer(journal)
+  }
+  else if (type=="sciencedirect"){
+    data <- get.sciencedirect(journal)
   }
   # df_list <- list(df1,df2)
   # data <- Reduce(function(x,y) merge(x,y,all=T),df_list)
