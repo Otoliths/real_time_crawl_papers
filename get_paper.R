@@ -89,9 +89,9 @@ get.information <- function(journal= NULL){
 
 paper <- lapply(list$journal,get.information)
 paper <- rlist::list.stack(paper)
-keywords <- c("migration","anguilla")
+keywords <- c("migration","anguilla","eel")
 row <- lapply(keywords,grep,stringr::str_to_lower(paper$title))
-row <- unique(c(row[[1]],row[[2]]))
+row <- unique(c(row[[1]],row[[2]],row[[3]]))
 new_paper <- paper[row,]
 new_paper <- rbind(readRDS("new_paper.rds"),new_paper)
 new_paper <- unique(new_paper)
