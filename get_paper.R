@@ -95,5 +95,6 @@ row <- unique(c(row[[1]],row[[2]],row[[3]],row[[4]],row[[5]],row[[6]],row[[7]],r
 new_paper <- paper[row,]
 new_paper <- rbind(readRDS("new_paper.rds"),new_paper)
 new_paper <- unique(new_paper)
+new_paper <- new_paper[order(new_paper$date,decreasing = T),]
 saveRDS(new_paper,"new_paper.rds")
 
