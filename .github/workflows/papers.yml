@@ -23,6 +23,6 @@ jobs:
         run: |
           git config --local user.email ly_ding@126.com
           git config --local user.name Otoliths
-          git add new_paper.rds
-          git commit new_paper.rds --allow-empty -m 'add new papers: ${{github.run_number}}' || echo "No changes to commit"
+          git add new_paper
+          git commit new_paper --allow-empty -m 'add new papers: ${{github.run_number}}' || echo "No changes to commit"
           git push https://${{github.actor}}:${{secrets.papers}}@github.com/${{github.repository}}.git HEAD:${{ github.ref }} || echo "No changes to commit"
