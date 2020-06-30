@@ -126,5 +126,8 @@ new_paper <- paper[row,]
 new_paper <- rbind(readRDS("new_paper.rds"),new_paper)
 new_paper <- unique(new_paper)
 new_paper <- new_paper[order(new_paper$date,decreasing = T),]
-saveRDS(new_paper,"new_paper.rds")
-
+if (!file.exists("new_paper”)){
+    dir.create("new_paper")
+  }
+path <- paste0("new_paper/",Sys.Date(),".rds")
+saveRDS(new_paper,path)
