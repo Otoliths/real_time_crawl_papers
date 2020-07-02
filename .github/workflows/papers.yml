@@ -4,7 +4,7 @@ name: real_time_crawl_papers
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "0 4 * * *"
 
 jobs:
   run-R-script:
