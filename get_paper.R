@@ -124,7 +124,7 @@ row <- lapply(keywords,grep,stringr::str_to_lower(paper$title))
 row <- unique(c(row[[1]],row[[2]],row[[3]],row[[4]],row[[5]],row[[6]],row[[7]],row[[8]],row[[9]]))
 new_paper <- paper[row,]
 #new_paper <- rbind(readRDS("new_paper.rds"),new_paper)
-new_paper <- rbind(readRDS(paste0("new_paper/",Sys.Date()-1,".rds")),new_paper)
+new_paper <- rbind(readRDS(paste0("new_paper/",Sys.Date()-6,".rds")),new_paper)
 new_paper <- unique(new_paper)
 new_paper <- new_paper[order(new_paper$date,decreasing = T),]
 if (!file.exists("new_paper")){
